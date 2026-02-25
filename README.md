@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ☁️ Next.js 13 + Cloudflare R2 Image Upload
 
-## Getting Started
+Dự án này là boilerplate hướng dẫn cách tích hợp **Cloudflare R2** làm dịch vụ lưu trữ hình ảnh (Object Storage) cho ứng dụng **Next.js 13 (App Router)**. Việc sử dụng R2 giúp tối ưu chi phí lưu trữ nhờ chính sách Miễn phí băng thông tải ra (Zero Egress Fees).
 
-First, run the development server:
+## 🚀 Tính năng nổi bật
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Upload API:** Giao tiếp với Cloudflare R2 thông qua S3 API chuẩn (`@aws-sdk/client-s3`).
+- **URL-Safe Filename:** Tự động xử lý tên file trước khi upload (chuyển tiếng Việt có dấu thành không dấu, loại bỏ ký tự đặc biệt, chuyển thành dạng slug chuẩn) để tránh lỗi URL khi render ảnh.
+- **Client UI (Form):** Giao diện upload ảnh trực quan xây dựng bằng Tailwind CSS, hỗ trợ preview ảnh trước khi tải lên.
+- **Tối ưu hiển thị:** Tích hợp sẵn cấu hình để hoạt động mượt mà với component `<Image />` của Next.js.
+
+## 🛠️ Công nghệ sử dụng
+
+- [Next.js 13](https://nextjs.org/) (App Router)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Cloudflare R2](https://developers.cloudflare.com/r2/)
+- AWS SDK for JavaScript v3 (`@aws-sdk/client-s3`)
+
+## ⚙️ Hướng dẫn cài đặt
+
+### 1. Lấy thông tin từ Cloudflare R2
+
+1. Tạo một Bucket trên Cloudflare R2.
+2. Thiết lập Public Access (Custom Domain hoặc Public Dev URL) cho bucket.
+3. Tạo API Token (chọn Account API Token với quyền _Object Read & Write_).
+
+### 2. Thiết lập biến môi trường
+
+Tạo file `.env.local` ở thư mục gốc của dự án và điền các thông tin đã lấy ở bước trên:
+
+```env
+R2_ACCESS_KEY_ID=your_access_key_id
+R2_SECRET_ACCESS_KEY=your_secret_access_key
+R2_ENDPOINT=https://<ACCOUNT_ID>.r2.cloudflarestorage.com
+R2_BUCKET_NAME=your_bucket_name
+R2_PUBLIC_URL=https://your_custom_domain_or_pub_url
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
